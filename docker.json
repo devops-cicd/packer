@@ -1,0 +1,26 @@
+{
+	"builders": [{
+	  "type": "docker",
+	  "image": "ceregousa/ubuntu-git",
+	  "commit": true,
+	  "changes": [
+	    "USER root",
+	    "WORKDIR /ccms"
+	  ]
+	}],
+	"provisioners": [{
+	  "type": "shell",
+	  "inline": ["mkdir /ccms",
+		     "git clone https://github.com/devops-cicd/hello-world.git",
+		     "cp /hello-world/src/index.html /ccms"]
+	}],
+	"post-processors": [
+		[
+			{
+			"type": "docker-tag",
+			"repository": "test",
+			"tag": "0.1"
+			}
+		]
+	]
+}
